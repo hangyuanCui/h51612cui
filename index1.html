@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-controller="myController">
+        <div ng-repeat="item in data.T1348647853363">
+            <h2>{{item.title}}</h2>
+        </div>
+    </div>
+</body>
+<script src="../lib/angular.js"></script>
+<script src="../lib/angular-resource.js"></script>
+<script>
+    angular.module("myApp" , ["ngResource"])
+        .controller("myController" , function ($scope , $resource) {
+            /*
+            * angular 给我们提供了一个$resource服务
+            * 这个东西也是用来给网络方面做交互的
+            * 我们可以是用它来进行一些与服务器端数据的交互的操作
+            *
+            * 使用起来特别方便
+            * 因为其封装接近底层
+            * 是用它可以避开复杂的回调问题
+            *
+            * */
+
+            var obj = $resource("../wy.json");
+
+            $scope.data = obj.get();
+
+            console.log($scope.data);
+
+            console.log($socpe.data.T1348647853363);
+
+            /*
+            * 上面这两行打印， 看起来是同步的， 起始是异步的
+            *
+            * obj.get() 是一个resource 资源对象
+            * 会被$resource 处理
+            * 在获取到数据后
+            * $resource 会把数据填充到$scope.data中
+            * 所以 直接使用$scope.data 的地方都会收到数据
+            * 在DOM中  data.T1348647853363 有数据
+            *
+            * 原理：
+            * 起始 刚开始的时候 data.T1348647853363 也是没有数据的
+            * 只不过， 当$scope.data 有值的时候 会触发脏检查
+            * 但是 要注意 原生js 不会这样的
+            * */
+
+
+            var obj = $resource("地址。。。");
+
+            var a = obj.get()
+            /*
+            * 如果地址中返回的是对象的形式 {}
+            * 使用get方法来回去数据
+            *
+            * 如果地址中返回的是数据的形式 []
+            * 使用 query 方法来获取数据
+            *
+            * 当在使用get方法的时候 还可以进行参数的配置
+            * */
+            obj.get({
+                name: "xxx",
+                age: 21
+            } , function successCallback (res) {
+                console.log(res);
+            } , function  errorCallback (err) {
+                console.log(err);
+            });
+
+            /*
+            * 当然 也可以通过更复杂的方法来使用$resource
+            * */
+            var obj = $resource(url , {} , {
+                method:"jsonp",
+                url: "" ,
+                url: "" ,
+                params:{
+                    name: "zhangsan" ,
+                    age: 12
+                },
+                transformRequest:function (data , headFn) {
+                    // 如果后台的服务器需要前端进行url处理之后再发送
+                    // 这个时候， 可以在这个地方进行业务逻辑的处理
+                },
+                transformResponse:function () {
+                    text/html
+                    text/plan
+                    application/json
+
+                }
+            });
+
+        })
+</script>
+</html>
